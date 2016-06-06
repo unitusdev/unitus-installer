@@ -74,6 +74,9 @@ Section "Graphical Interface" SecGUI
   File "resources\${VERSION}\${ARCH}-bit\Unitus-qt.exe"
   File "resources\unitus.ico"
   
+  ; add firewall exception
+  SimpleFC::AddApplication Unitus-Qt "$INSTDIR\Unitus-qt.exe" 0 2 "" 1
+
   ; shortcuts
   SetShellVarContext all
   CreateShortcut "$SMPROGRAMS\Unitus.lnk" "$INSTDIR\Unitus-qt.exe"
@@ -99,6 +102,9 @@ Section "Daemon & Command Line" SecCMD
   File "resources\${VERSION}\${ARCH}-bit\unitusd.exe"
   File "resources\${VERSION}\${ARCH}-bit\unitus-cli.exe"
   File "resources\unitus.ico"
+
+  ; add firewall exception
+  SimpleFC::AddApplication Unitus-Daemon "$INSTDIR\unitusd.exe" 0 2 "" 1
 
   ;Store installation folder
   WriteRegStr HKCU "Software\Unitus" "" $INSTDIR
@@ -127,6 +133,11 @@ Section "Uninstall"
 
   ;ADD YOUR OWN FILES HERE...
 
+  ; remove firewall exceptions
+  
+  SimpleFC::RemoveApplication "$INSTDIR\Unitus-qt.exe"
+  SimpleFC::RemoveApplication "$INSTDIR\unitusd.exe"
+  
   Delete "$INSTDIR\Unitus-qt.exe"
   Delete "$INSTDIR\unitusd.exe"
   Delete "$INSTDIR\unitus-cli.exe"
