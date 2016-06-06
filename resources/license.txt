@@ -1,4 +1,4 @@
-Copyright (c) 2009-2015 Myriadcoin Developers
+Copyright (c) 2009-2016 Unitus Developers
 
 Distributed under the MIT/X11 software license
 

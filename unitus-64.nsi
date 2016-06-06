@@ -1,5 +1,5 @@
 ;NSIS Modern User Interface
-; Myriad Installer for Windows 32-bit
+; Unitus Installer for Windows 64-bit
 ; Written by nzsquirrell
 
 ;--------------------------------
@@ -11,32 +11,32 @@
 ;General
 
   
-  !define VERSION "0.9.2.17"
-  !define ARCH "32"
+  !define VERSION "0.9.6.3"
+  !define ARCH "64"
   
   ;Name and file
-  Name "Myriad"
-  OutFile "output\MyriadSetup-${VERSION}-win${ARCH}.exe"
+  Name "Unitus"
+  OutFile "output\UnitusSetup-${VERSION}-win${ARCH}.exe"
   
   ;Default installation folder
-  InstallDir "$PROGRAMFILES32\Myriad"
+  InstallDir "$PROGRAMFILES64\Unitus"
   
   ;Get installation folder from registry if available
-  InstallDirRegKey HKLM "Software\Myriad" ""
+  InstallDirRegKey HKLM "Software\Unitus" ""
 
   ;Request application privileges for Windows Vista
   RequestExecutionLevel highest
   
-  ; Change icons to use Myriad's
-  !define MUI_ICON "resources\myriad.ico"
-  !define MUI_UNICON "resources\myriad.ico"
+  ; Change icons to use Unitus's
+  !define MUI_ICON "resources\unitus.ico"
+  !define MUI_UNICON "resources\unitus.ico"
   
   ; use LZMA compression to shrink as small as possible
   SetCompressor /SOLID LZMA
   
-  VIAddVersionKey "ProductName" "Myriad"
+  VIAddVersionKey "ProductName" "Unitus"
   VIAddVersionKey "FileVersion" "${VERSION}"
-  VIAddVersionKey "FileDescription" "Myriad ${ARCH}-bit Installer"
+  VIAddVersionKey "FileDescription" "Unitus ${ARCH}-bit Installer"
   VIProductVersion "${VERSION}"
   VIFileVersion "${VERSION}"
   
@@ -47,7 +47,7 @@
 
 ;--------------------------------
 ;Pages
-  !define MUI_WELCOMEPAGE_TITLE "Myriad ${VERSION} ${ARCH}-bit Installer"
+  !define MUI_WELCOMEPAGE_TITLE "Unitus ${VERSION} ${ARCH}-bit Installer"
   !insertmacro MUI_PAGE_WELCOME
   !insertmacro MUI_PAGE_LICENSE "resources\license.txt"
   !insertmacro MUI_PAGE_COMPONENTS
@@ -71,20 +71,20 @@ Section "Graphical Interface" SecGUI
   
   ;ADD YOUR OWN FILES HERE...
   
-  File "resources\${VERSION}\${ARCH}-bit\myriadcoin-qt.exe"
-  File "resources\myriad.ico"
+  File "resources\${VERSION}\${ARCH}-bit\Unitus-qt.exe"
+  File "resources\unitus.ico"
   
   ; shortcuts
   SetShellVarContext all
-  CreateShortcut "$SMPROGRAMS\Myriad.lnk" "$INSTDIR\myriadcoin-qt.exe"
+  CreateShortcut "$SMPROGRAMS\Unitus.lnk" "$INSTDIR\Unitus-qt.exe"
   
   MessageBox MB_YESNO|MB_ICONQUESTION "Do you want to create a shortcut on the desktop?" IDYES true IDNO false
   true:
-	CreateShortcut "$DESKTOP\Myriad.lnk" "$INSTDIR\myriadcoin-qt.exe"
+	CreateShortcut "$DESKTOP\Unitus.lnk" "$INSTDIR\Unitus-qt.exe"
   false:
   
   ;Store installation folder
-  WriteRegStr HKCU "Software\Myriad" "" $INSTDIR
+  WriteRegStr HKCU "Software\Unitus" "" $INSTDIR
 
   Call Uninstaller
   
@@ -96,12 +96,12 @@ Section "Daemon & Command Line" SecCMD
   
   ;ADD YOUR OWN FILES HERE...
   
-  File "resources\${VERSION}\${ARCH}-bit\myriadcoind.exe"
-  File "resources\${VERSION}\${ARCH}-bit\myriadcoin-cli.exe"
-  File "resources\myriad.ico"
+  File "resources\${VERSION}\${ARCH}-bit\unitusd.exe"
+  File "resources\${VERSION}\${ARCH}-bit\unitus-cli.exe"
+  File "resources\unitus.ico"
 
   ;Store installation folder
-  WriteRegStr HKCU "Software\Myriad" "" $INSTDIR
+  WriteRegStr HKCU "Software\Unitus" "" $INSTDIR
   
   Call Uninstaller
   
@@ -127,19 +127,19 @@ Section "Uninstall"
 
   ;ADD YOUR OWN FILES HERE...
 
-  Delete "$INSTDIR\myriadcoin-qt.exe"
-  Delete "$INSTDIR\myriadcoind.exe"
-  Delete "$INSTDIR\myriadcoin-cli.exe"
+  Delete "$INSTDIR\Unitus-qt.exe"
+  Delete "$INSTDIR\unitusd.exe"
+  Delete "$INSTDIR\unitus-cli.exe"
   SetShellVarContext all
-  Delete "$SMPROGRAMS\Myriad.lnk"
-  Delete "$DESKTOP\Myriad.lnk"
+  Delete "$SMPROGRAMS\Unitus.lnk"
+  Delete "$DESKTOP\Unitus.lnk"
   
   Delete "$INSTDIR\Uninstall.exe"
 
   RMDir "$INSTDIR"
 
-  DeleteRegKey /ifempty HKCU "Software\Myriad"
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Myriad"
+  DeleteRegKey /ifempty HKCU "Software\Unitus"
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus"
   
 SectionEnd
 
@@ -149,12 +149,12 @@ Function Uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
   
   ;Add uninstaller to Add/Remove Programs
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Myriad" "DisplayName" "Myriad"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Myriad" "UninstallString" "$INSTDIR\Uninstall.exe"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Myriad" "InstallLocation" "$INSTDIR"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Myriad" "DisplayIcon" "$INSTDIR\myriad.ico"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Myriad" "DisplayVersion" "${VERSION}"
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Myriad" "NoModify" 1
-  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Myriad" "NoRepair" 1
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus" "DisplayName" "Unitus"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus" "UninstallString" "$INSTDIR\Uninstall.exe"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus" "InstallLocation" "$INSTDIR"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus" "DisplayIcon" "$INSTDIR\unitus.ico"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus" "DisplayVersion" "${VERSION}"
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus" "NoModify" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus" "NoRepair" 1
 
 FunctionEnd
