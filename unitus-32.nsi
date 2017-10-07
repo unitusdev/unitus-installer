@@ -11,7 +11,7 @@
 ;General
 
   
-  !define VERSION "0.9.7.1"
+  !define VERSION "0.14.2.0"
   !define ARCH "32"
   
   ;Name and file
@@ -71,19 +71,19 @@ Section "Graphical Interface" SecGUI
   
   ;ADD YOUR OWN FILES HERE...
   
-  File "resources\${VERSION}\${ARCH}-bit\Unitus-qt.exe"
+  File "resources\${VERSION}\${ARCH}-bit\unitus-qt.exe"
   File "resources\unitus.ico"
   
   ; add firewall exception
-  SimpleFC::AddApplication Unitus-Qt "$INSTDIR\Unitus-qt.exe" 0 2 "" 1
+  SimpleFC::AddApplication Unitus-Qt "$INSTDIR\unitus-qt.exe" 0 2 "" 1
 
   ; shortcuts
   SetShellVarContext all
-  CreateShortcut "$SMPROGRAMS\Unitus.lnk" "$INSTDIR\Unitus-qt.exe"
+  CreateShortcut "$SMPROGRAMS\Unitus.lnk" "$INSTDIR\unitus-qt.exe"
   
   MessageBox MB_YESNO|MB_ICONQUESTION "Do you want to create a shortcut on the desktop?" IDYES true IDNO false
   true:
-	CreateShortcut "$DESKTOP\Unitus.lnk" "$INSTDIR\Unitus-qt.exe"
+	CreateShortcut "$DESKTOP\Unitus.lnk" "$INSTDIR\unitus-qt.exe"
   false:
   
   ;Store installation folder
@@ -101,6 +101,7 @@ Section "Daemon & Command Line" SecCMD
   
   File "resources\${VERSION}\${ARCH}-bit\unitusd.exe"
   File "resources\${VERSION}\${ARCH}-bit\unitus-cli.exe"
+  File "resources\${VERSION}\${ARCH}-bit\unitus-tx.exe"
   File "resources\unitus.ico"
 
   ; add firewall exception
@@ -135,12 +136,13 @@ Section "Uninstall"
 
   ; remove firewall exceptions
   
-  SimpleFC::RemoveApplication "$INSTDIR\Unitus-qt.exe"
+  SimpleFC::RemoveApplication "$INSTDIR\unitus-qt.exe"
   SimpleFC::RemoveApplication "$INSTDIR\unitusd.exe"
   
-  Delete "$INSTDIR\Unitus-qt.exe"
+  Delete "$INSTDIR\unitus-qt.exe"
   Delete "$INSTDIR\unitusd.exe"
   Delete "$INSTDIR\unitus-cli.exe"
+  Delete "$INSTDIR\unitus-tx.exe"
   SetShellVarContext all
   Delete "$SMPROGRAMS\Unitus.lnk"
   Delete "$DESKTOP\Unitus.lnk"
