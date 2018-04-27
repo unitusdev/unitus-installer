@@ -10,36 +10,36 @@
 ;--------------------------------
 ;General
 
-  
-  !define VERSION "0.14.2.0"
+
+  !define VERSION "0.14.2.2"
   !define ARCH "32"
-  
+
   ;Name and file
   Name "Unitus"
   OutFile "output\UnitusSetup-${VERSION}-win${ARCH}.exe"
-  
+
   ;Default installation folder
   InstallDir "$PROGRAMFILES32\Unitus"
-  
+
   ;Get installation folder from registry if available
   InstallDirRegKey HKLM "Software\Unitus" ""
 
   ;Request application privileges for Windows Vista
   RequestExecutionLevel highest
-  
+
   ; Change icons to use Unitus's
   !define MUI_ICON "resources\unitus.ico"
   !define MUI_UNICON "resources\unitus.ico"
-  
+
   ; use LZMA compression to shrink as small as possible
   SetCompressor /SOLID LZMA
-  
+
   VIAddVersionKey "ProductName" "Unitus"
   VIAddVersionKey "FileVersion" "${VERSION}"
   VIAddVersionKey "FileDescription" "Unitus ${ARCH}-bit Installer"
   VIProductVersion "${VERSION}"
   VIFileVersion "${VERSION}"
-  
+
 ;--------------------------------
 ;Interface Settings
 
@@ -53,13 +53,13 @@
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
-  
+
   !insertmacro MUI_UNPAGE_CONFIRM
   !insertmacro MUI_UNPAGE_INSTFILES
-  
+
 ;--------------------------------
 ;Languages
- 
+
   !insertmacro MUI_LANGUAGE "English"
 
 ;--------------------------------
@@ -68,37 +68,37 @@
 Section "Graphical Interface" SecGUI
 
   SetOutPath "$INSTDIR"
-  
+
   ;ADD YOUR OWN FILES HERE...
-  
+
   File "resources\${VERSION}\${ARCH}-bit\unitus-qt.exe"
   File "resources\unitus.ico"
-  
+
   ; add firewall exception
   SimpleFC::AddApplication Unitus-Qt "$INSTDIR\unitus-qt.exe" 0 2 "" 1
 
   ; shortcuts
   SetShellVarContext all
   CreateShortcut "$SMPROGRAMS\Unitus.lnk" "$INSTDIR\unitus-qt.exe"
-  
+
   MessageBox MB_YESNO|MB_ICONQUESTION "Do you want to create a shortcut on the desktop?" IDYES true IDNO false
   true:
 	CreateShortcut "$DESKTOP\Unitus.lnk" "$INSTDIR\unitus-qt.exe"
   false:
-  
+
   ;Store installation folder
   WriteRegStr HKCU "Software\Unitus" "" $INSTDIR
 
   Call Uninstaller
-  
+
 SectionEnd
 
 Section "Daemon & Command Line" SecCMD
 
   SetOutPath "$INSTDIR"
-  
+
   ;ADD YOUR OWN FILES HERE...
-  
+
   File "resources\${VERSION}\${ARCH}-bit\unitusd.exe"
   File "resources\${VERSION}\${ARCH}-bit\unitus-cli.exe"
   File "resources\${VERSION}\${ARCH}-bit\unitus-tx.exe"
@@ -109,9 +109,9 @@ Section "Daemon & Command Line" SecCMD
 
   ;Store installation folder
   WriteRegStr HKCU "Software\Unitus" "" $INSTDIR
-  
+
   Call Uninstaller
-  
+
 SectionEnd
 
 ;--------------------------------
@@ -135,10 +135,10 @@ Section "Uninstall"
   ;ADD YOUR OWN FILES HERE...
 
   ; remove firewall exceptions
-  
+
   SimpleFC::RemoveApplication "$INSTDIR\unitus-qt.exe"
   SimpleFC::RemoveApplication "$INSTDIR\unitusd.exe"
-  
+
   Delete "$INSTDIR\unitus-qt.exe"
   Delete "$INSTDIR\unitusd.exe"
   Delete "$INSTDIR\unitus-cli.exe"
@@ -146,21 +146,21 @@ Section "Uninstall"
   SetShellVarContext all
   Delete "$SMPROGRAMS\Unitus.lnk"
   Delete "$DESKTOP\Unitus.lnk"
-  
+
   Delete "$INSTDIR\Uninstall.exe"
 
   RMDir "$INSTDIR"
 
   DeleteRegKey /ifempty HKCU "Software\Unitus"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus"
-  
+
 SectionEnd
 
 Function Uninstaller
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
-  
+
   ;Add uninstaller to Add/Remove Programs
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus" "DisplayName" "Unitus"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Unitus" "UninstallString" "$INSTDIR\Uninstall.exe"
